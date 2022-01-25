@@ -10,13 +10,13 @@ pipeline {
 
     environment {
       AWS_ACCOUNT_ID="195879934828"
-      AWS_DEFAULT_REGION="us-east-2a"
+      AWS_DEFAULT_REGION="us-east-2"
       CLUSTER_NAME="capstone-Aetna-cluster"
       SERVICE_NAME="simplilearn-capstone-nodejs-container-service"
       TASK_DEFINITION_NAME="aetna-capstone-definition"
       DESIRED_COUNT="1"
       IMAGE_REPO_NAME="simplilearn-capstone-pvt-repo"
-      IMAGE_TAG="${env.BUILD_ID}"
+      IMAGE_TAG="latest"
       REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
     }
       stages {
@@ -34,8 +34,9 @@ pipeline {
         stage('Pushing to ECR') {
           steps{
             script {
-              sh '$(aws ecr get-login --no-include-email --region us-east-2)'
-              sh 'docker push 195879934828.dkr.ecr.us-east-2.amazonaws.com/simplilearn-capstone-pvt-repo:latest'
+                sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+                sh "docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI} : $IMAGE_TAG"
+                SH "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${aws_default_region}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
             }
           }
         }    
