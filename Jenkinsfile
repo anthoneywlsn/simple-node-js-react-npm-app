@@ -1,7 +1,8 @@
 pipeline {
     agent {
         docker {
-            image 'node:lts-bullseye-slim' 
+            image 'node:lts-bullseye-slim'
+            reuseNode true
             args '-p 3000:3000'
         }
     }
@@ -24,6 +25,14 @@ pipeline {
             steps {
                 sh 'npm install' 
             }
+        }
+        // Uploading Docker images into AWS ECR
+        stage('Login to ECR') {
+          steps{
+            script {
+                sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+            }
+          }
         }
         stage('Test') {
             steps {
