@@ -18,9 +18,8 @@ pipeline {
       IMAGE_REPO_NAME="simplilearn-capstone-pvt-repo"
       IMAGE_TAG="${env.BUILD_ID}"
       REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
-      registryCredential="auth"
     }
-    stages {
+      stages {
         stage('Build') { 
             steps {
                 sh 'npm install' 
@@ -35,9 +34,8 @@ pipeline {
         stage('Pushing to ECR') {
           steps{
             script {
-              docker.withRegistry("https://" + REPOSITORY_URI, "ecr:${AWS_DEFAULT_REGION}:" + registryCredential) {
-              dockerImage.push()
-              }
+              sh '$(aws ecr get-login --no-include-email --region us-east-2)'
+              sh 'docker push 195879934828.dkr.ecr.us-east-2.amazonaws.com/simplilearn-capstone-pvt-repo:latest'
             }
           }
         }    
