@@ -1,4 +1,6 @@
 FROM jenkins/jenkins:2.319.2-jdk11
+WORKDIR /simplilearn-capstone
+ENV PATH /simplilearn-capstone/simple-node-js-react-npm-app
 USER root
 RUN apt-get update && apt-get install -y lsb-release
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
