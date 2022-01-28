@@ -27,11 +27,16 @@ pipeline {
             }
         }
         // Uploading Docker images into AWS ECR
-        stage('Login to ECR') {
-          steps{
+        stage('Deploy') {
+          steps {
             script {
-                sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
-            }
+              docker.withRegistry(
+                'https://195879934828.dkr.ecr.us-east-2.amazonaws.com' ,
+                'ecr:us-east-2:anthoney_wilson') {
+                def myImage = docker.build( 'simplilearn-capstone-pvt-repo')
+                myImage.push('latest')    
+              }  
+            }  
           }
         }
         stage('Test') {
