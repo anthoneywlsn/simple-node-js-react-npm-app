@@ -34,7 +34,8 @@ pipeline {
                 'https://195879934828.dkr.ecr.us-east-2.amazonaws.com' ,
                 'ecr:us-east-2:anthoney_wilson') {
                 def myImage = docker.build( 'simplilearn-capstone-pvt-repo')
-                myImage.push('latest')    
+                myImage.push('latest')
+                  reuseNode true
               }  
             }  
           }
