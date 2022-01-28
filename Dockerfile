@@ -15,4 +15,4 @@ RUN ./aws/install
 USER jenkins
 RUN usermod -aG docker ${USER}
 RUN usermod -aG docker jenkins
-RUN jenkins-plugin-cli --plugins 'blueocean:1.25.2 docker-workflow:1.27'
+RUN jenkins-plugin-cli --plugins "blueocean:1.25.2 docker-workflow:1.27"
