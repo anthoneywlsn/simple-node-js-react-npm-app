@@ -26,6 +26,11 @@ pipeline {
                 sh 'npm install' 
             }
         }
+        stage('Test') {
+            steps {
+                sh './jenkins/scripts/test.sh'
+            }
+        }          
         // Uploading Docker images into AWS ECR
         stage('Deploy') {
           steps {
@@ -39,11 +44,6 @@ pipeline {
               }  
             }  
           }
-        }
-        stage('Test') {
-            steps {
-                sh './jenkins/scripts/test.sh'
-            }
         }
         stage('Deliver') {
             steps {
