@@ -37,7 +37,7 @@ pipeline {
             script {
               docker.withRegistry(
                 'https://195879934828.dkr.ecr.us-east-2.amazonaws.com' ,
-                'ecr:us-east-2:Anthoney_Wilson') {
+                'ecr:us-east-2:AWS') {
                 def myImage = docker.build( 'simplilearn-capstone-pvt-repo')
                 myImage.push('latest')
                   reuseNode true
