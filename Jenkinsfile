@@ -6,8 +6,6 @@ pipeline {
             args '-p 3000:3000'
         }
     }
-    
-    tools {nodejs "node"}
 
     environment {
       AWS_ACCOUNT_ID="195879934828"
