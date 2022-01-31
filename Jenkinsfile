@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 environment {
       AWS_ACCOUNT_ID="195879934828"
       AWS_DEFAULT_REGION="us-east-2a"
@@ -11,6 +12,31 @@ environment {
       registryCredential="aws-iam-user"
     }
     stages {
+=======
+pipeline {
+    agent {
+        docker {
+            image 'node:lts-bullseye-slim'
+            reuseNode true
+            args '-p 3000:3000'
+        }
+    }
+    
+    tools {nodejs "node"}
+
+    environment {
+      AWS_ACCOUNT_ID="195879934828"
+      AWS_DEFAULT_REGION="us-east-2"
+      CLUSTER_NAME="capstone-Aetna-cluster"
+      SERVICE_NAME="simplilearn-capstone-nodejs-container-service"
+      TASK_DEFINITION_NAME="aetna-capstone-definition"
+      DESIRED_COUNT="1"
+      IMAGE_REPO_NAME="simplilearn-capstone-pvt-repo"
+      IMAGE_TAG="latest"
+      REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+    }
+      stages {
+>>>>>>> 7dc6846e15ac430f9959e057c5a89ec4391f0094
         stage('Build') { 
             steps {
                 sh 'npm install' 
@@ -20,6 +46,20 @@ environment {
             steps {
                 sh './jenkins/scripts/test.sh'
             }
+        }          
+        // Uploading Docker images into AWS ECR
+        stage('Deploy') {
+          steps {
+            script {
+              docker.withRegistry(
+                'https://195879934828.dkr.ecr.us-east-2.amazonaws.com' ,
+                'ecr:us-east-2:Anthoney_Wilson') {
+                def myImage = docker.build( 'simplilearn-capstone-pvt-repo')
+                myImage.push('latest')
+                  reuseNode true
+              }  
+            }  
+          }
         }
         // Uploading Docker images into AWS ECR
         stage('Pushing to ECR') {
