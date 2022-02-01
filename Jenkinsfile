@@ -16,7 +16,8 @@ pipeline {
       DESIRED_COUNT="1"
       IMAGE_REPO_NAME="simplilearn-capstone-pvt-repo"
       IMAGE_TAG="latest"
-      REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+      docker_repo_uri ="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+      exec_role_arn = "arn:aws:iam::195879934828:role/ecsTaskExecutionRole"  
     }
       stages {
         stage('Build') { 
@@ -47,7 +48,7 @@ pipeline {
         stage('Pushing to ECR') {
           steps{
             script {
-              docker.withRegistry("https://" + REPOSITORY_URI, "ecr:${AWS_DEFAULT_REGION}:" + registryCredential) {
+              docker.withRegistry("https://" + docker_repo_uri, "ecr:${AWS_DEFAULT_REGION}:" + registryCredential) {
               dockerImage.push()
               }
             }
