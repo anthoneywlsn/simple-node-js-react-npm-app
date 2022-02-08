@@ -17,7 +17,7 @@ pipeline {
       IMAGE_REPO_NAME="simplilearn-capstone-pvt-repo"
       IMAGE_TAG="latest"
       docker_repo_uri ="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
-      registryCredential="aws-iam-user"
+      registryCredential="anthoney_wilson"
       exec_role_arn = "arn:aws:iam::195879934828:role/Jenkins"  
     }
       stages {
