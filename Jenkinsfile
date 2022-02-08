@@ -32,25 +32,11 @@ pipeline {
             }
         }          
         // Uploading Docker images into AWS ECR
-        stage('Deploy') {
-          steps {
-            script {
-              docker.withRegistry(
-                'https://195879934828.dkr.ecr.us-east-2.amazonaws.com' ,
-                'ecr:us-east-2:AWS') {
-                def myImage = docker.build( 'simplilearn-capstone-pvt-repo')
-                myImage.push('latest')
-                  reuseNode true
-              }  
-            }  
-          }
-        }
-        // Uploading Docker images into AWS ECR
         stage('Pushing to ECR') {
           steps{
             script {
               docker.withRegistry("https://" + docker_repo_uri, "ecr:${AWS_DEFAULT_REGION}:" + registryCredential) {
-              dockerImage.push()
+              dockerImage.push('latest')
               }
             }
           }
