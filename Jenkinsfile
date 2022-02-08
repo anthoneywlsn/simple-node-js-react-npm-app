@@ -17,7 +17,7 @@ pipeline {
       IMAGE_REPO_NAME="simplilearn-capstone-pvt-repo"
       IMAGE_TAG="latest"
       docker_repo_uri ="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
-      exec_role_arn = "arn:aws:iam::195879934828:role/ecsTaskExecutionRole"  
+      exec_role_arn = "arn:aws:iam::195879934828:role/Jenkins"  
     }
       stages {
         stage('Build') { 
@@ -36,7 +36,7 @@ pipeline {
             script {
               docker.withRegistry(
                 'https://195879934828.dkr.ecr.us-east-2.amazonaws.com' ,
-                'ecr:us-east-2:') {
+                'ecr:us-east-2:AWS') {
                 def myImage = docker.build( 'simplilearn-capstone-pvt-repo')
                 myImage.push('latest')
                   reuseNode true
