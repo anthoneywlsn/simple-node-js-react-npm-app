@@ -1,7 +1,7 @@
 FROM jenkins/jenkins:2.319.2-jdk11
 WORKDIR /simplilearn-capstone
-ENV PATH /simplilearn-capstone/simple-node-js-react-npm-app/latest
-USER root
+ENV PATH /simplilearn-capstone/simple-node-js-react-npm-app
+USER ec2-user
 RUN apt-get update && apt-get install -y lsb-release
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
   https://download.docker.com/linux/debian/gpg
