@@ -12,6 +12,6 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
 RUN docker --version
 RUN ./aws/install
 USER jenkins
-RUN usermod -aG docker ${USER}
+RUN usermod -aG docker ec2-user
 RUN usermod -aG docker jenkins
 RUN jenkins-plugin-cli --plugins "blueocean:1.25.2 docker-workflow:1.27"
